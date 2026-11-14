@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campo — Cultiva con confianza</title>
+  <!-- Tipografía limpia y legible para lectura rápida en campo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-layout">
+    
+    <!-- BARRA LATERAL (SIDEBAR) -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">🌿</div>
+        <div>
+          <h1 class="brand-title">campo</h1>
+          <p class="brand-subtitle">CULTIVA CON CONFIANZA</p>
+        </div>
+      </div>
+
+      <nav class="side-nav">
+        <a href="#" class="nav-item active"><span>🏠</span> Mi campo</a>
+        <a href="#" class="nav-item"><span>🌱</span> Mis cultivos</a>
+        <a href="#" class="nav-item"><span>☀️</span> Clima</a>
+        <a href="#" class="nav-item"><span>💧</span> Riego</a>
+        <a href="#" class="nav-item"><span>📖</span> Aprender</a>
+      </nav>
+
+      <div class="sidebar-guide">
+        <span class="guide-icon">📖</span>
+        <h4>Tu campo, paso a paso</h4>
+        <p>Aprende a interpretar los datos de tu parcela.</p>
+        <a href="#" class="guide-link">Ver guía sencilla →</a>
+      </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+      
+      <!-- BARRA SUPERIOR: SELECTOR DE UBICACIÓN Y ESTADO -->
+      <header class="top-bar">
+        <div class="location-controls">
+          <div class="select-wrapper">
+            <span class="pin-icon">📍</span>
+            <select id="parcela-select" aria-label="Seleccionar parcela">
+              <option value="gps">Usar mi ubicación actual (GPS)</option>
+              <option value="-11.50,-77.20" selected>Parcela La Esperanza (Huaral)</option>
+              <option value="-13.07,-76.38">Valle de Cañete (Lima Sur)</option>
+              <option value="-14.06,-75.72">Fundo San José (Ica)</option>
+              <option value="-8.11,-79.02">Valle Moche (La Libertad)</option>
+            </select>
+          </div>
+          <button id="btn-detect-gps" class="btn-gps" title="Detectar mi ubicación por GPS">
+            🎯 Detectar mi parcela
+          </button>
+        </div>
+
+        <div class="top-actions">
+          <span id="coord-badge" class="badge-meta">Lat: -11.50, Lon: -77.20</span>
+          <span id="elevation-badge" class="badge-meta">Altitud: -- msnm</span>
+          <span id="api-status" class="status-pill status-loading">
+            <span class="dot"></span> Conectando NASA POWER...
+          </span>
+        </div>
+      </header>
+
+      <!-- TÍTULO PRINCIPAL Y FECHA -->
+      <section class="hero-header">
+        <div>
+          <h2>Así está tu campo hoy</h2>
+          <p class="subtitle">Todo lo que necesitas saber para cuidar tus cultivos.</p>
+        </div>
+        <div class="date-display">
+          <p id="current-date">Cargando fecha...</p>
+        </div>
+      </section>
+
+      <!-- GRILLA DE TARJETAS CLIMÁTICAS (DATOS NASA POWER) -->
+      <section class="weather-grid">
+        
+        <!-- Tarjeta Principal: Temperatura (T2M, T2M_MAX, T2M_MIN) -->
+        <article class="card-weather-main">
+          <div class="weather-main-top">
+            <div>
+              <span class="card-label">EL CLIMA EN TU PARCELA</span>
+              <div class="temp-huge" id="val-temp">--°</div>
+            </div>
+            <div class="weather-icon-big" id="icon-weather">☀️</div>
+          </div>
+          <h3 id="label-weather-state">Analizando el cielo...</h3>
+          <p id="desc-weather-advice">Consultando satélites de la NASA para tu terreno.</p>
+          <div class="weather-main-footer">
+            <span id="val-temp-minmax">Máx. --° / Mín. --°</span>
+            <span id="val-solar">Radiación: --</span>
+          </div>
+        </article>
+
+        <!-- Sub-grilla de 4 indicadores -->
+        <div class="metrics-subgrid">
+          
+          <!-- 1. Humedad de la tierra (GWETTOP) -->
+          <article class="metric-card" id="card-soil">
+            <div class="metric-header">
+              <div class="metric-title-group">
+                <span class="metric-icon bg-amber">🌱</span>
+                <div>
+                  <h4>Humedad de la tierra</h4>
+                  <div class="metric-value"><span id="val-soil">--</span><small>%</small></div>
+                </div>
+              </div>
+              <span class="badge-tag" id="tag-soil">Calculando</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="bar-soil" style="width: 0%;"></div>
+            </div>
+            <p class="metric-caption" id="desc-soil">Nivel de agua en los primeros centímetros del suelo.</p>
+          </article>
+
+          <!-- 2. Humedad del aire (RH2M) -->
+          <article class="metric-card">
+            <div class="metric-header">
+              <div class="metric-title-group">
+                <span class="metric-icon bg-blue">💧</span>
+                <div>
+                  <h4>Humedad del aire</h4>
+                  <div class="metric-value"><span id="val-air-hum">--</span><small>%</small></div>
+                </div>
+              </div>
+              <span class="badge-tag" id="tag-air-hum">Calculando</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill fill-blue" id="bar-air-hum" style="width: 0%;"></div>
+            </div>
+            <p class="metric-caption" id="desc-air-hum">Vapor de agua presente en el ambiente.</p>
+          </article>
+
+          <!-- 3. Lluvia registrada (PRECTOTCORR) -->
+          <article class="metric-card">
+            <div class="metric-header">
+              <div class="metric-title-group">
+                <span class="metric-icon bg-sky">🌧️</span>
+                <div>
+                  <h4>Lluvia registrada</h4>
+                  <div class="metric-value"><span id="val-rain">--</span><small> mm</small></div>
+                </div>
+              </div>
+              <span class="badge-tag" id="tag-rain">--</span>
+            </div>
+            <p class="metric-caption" id="desc-rain">Agua caída por metro cuadrado.</p>
+          </article>
+
+          <!-- 4. Viento (WS10M convertido a km/h) -->
+          <article class="metric-card">
+            <div class="metric-header">
+              <div class="metric-title-group">
+                <span class="metric-icon bg-teal">💨</span>
+                <div>
+                  <h4>Viento</h4>
+                  <div class="metric-value"><span id="val-wind">--</span><small> km/h</small></div>
+                </div>
+              </div>
+              <span class="badge-tag" id="tag-wind">--</span>
+            </div>
+            <p class="metric-caption" id="desc-wind">Velocidad del viento en la zona.</p>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- BANNER DE ACCIÓN / RECOMENDACIÓN DE RIEGO -->
+      <section class="action-banner" id="irrigation-banner">
+        <div class="banner-left">
+          <span class="banner-icon">💧</span>
+          <div>
+            <h4 id="banner-title">Analizando necesidad de riego...</h4>
+            <p id="banner-text">Estamos cruzando la humedad del suelo y la temperatura de tu parcela.</p>
+          </div>
+        </div>
+        <button class="btn-outline" id="btn-irrigation-tip">¿Cómo regar mejor? →</button>
+      </section>
+
+      <!-- FILA MEDIA: HISTORIAL RECIENTE + CÁPSULA DIDÁCTICA -->
+      <section class="middle-split">
+        
+        <!-- Tendencia últimos 5 días de NASA POWER -->
+        <div class="forecast-box">
+          <div class="section-title-row">
+            <h3>Comportamiento reciente en tu parcela</h3>
+            <span class="small-caps">ÚLTIMOS 5 DÍAS REGISTRADOS</span>
+          </div>
+          <div class="days-row" id="recent-days-container">
+            <!-- Se llena dinámicamente desde ui.js -->
+          </div>
+        </div>
+
+        <!-- Cápsula educativa dinámica -->
+        <aside class="didactic-card">
+          <span class="didactic-label">📖 APRENDE CON TU CAMPO</span>
+          <h4 id="didactic-title">¿Qué significa "2 mm de lluvia"?</h4>
+          <p id="didactic-body">Son 2 litros de agua por cada metro cuadrado de tierra. ¡Cada gota cuenta para tus raíces!</p>
+          <button id="btn-next-tip" class="link-btn">Siguiente consejo práctico →</button>
+        </aside>
+
+      </section>
+
+      <!-- TABLA DE CULTIVOS CRUZADA CON DATOS DE SUELO -->
+      <section class="crops-section">
+        <div class="section-title-row">
+          <div>
+            <h3>Mis cultivos <span class="crop-count">Cargando...</span></h3>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="crops-table">
+            <thead>
+              <tr>
+                <th>CULTIVO</th>
+                <th>HUMEDAD DEL SUELO</th>
+                <th>TEMPERATURA / RANGO</th>
+                <th>ESTRÉS DETECTADO</th>
+                <th>ACCIÓN SUGERIDA</th>
+              </tr>
+            </thead>
+            <tbody id="crops-tbody">
+              <!-- Se actualiza al cruzar el clima, la altitud y las reglas locales -->
+            </tbody>
+          </table>
+        </div>
+        <h4 class="recommendation-title">Cultivos candidatos para sembrar o rotar</h4>
+        <p id="crop-data-status" class="crop-data-status">Cargando reglas locales de cultivos...</p>
+        <div id="crop-recommendations" class="recommendations-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- SCRIPTS EN ORDEN DE DEPENDENCIA -->
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

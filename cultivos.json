@@ -1,0 +1,70 @@
+[
+  {
+    "id": "maiz",
+    "name": "Maíz",
+    "icon": "🌽",
+    "lot": "Lote 01 · 1.2 ha",
+    "stage": "Crecimiento",
+    "ecocrop": {
+      "tempMin": 15,
+      "tempMax": 32,
+      "minMoisture": 45,
+      "maxAltitude": 3200
+    },
+    "gaez": {
+      "soilType": "Franco / Drenaje bueno",
+      "rotationTip": "Rotar con Frijol para fijar nitrógeno en el suelo"
+    }
+  },
+  {
+    "id": "tomate",
+    "name": "Tomate",
+    "icon": "🍅",
+    "lot": "Lote 02 · 0.5 ha",
+    "stage": "Floración",
+    "ecocrop": {
+      "tempMin": 18,
+      "tempMax": 30,
+      "minMoisture": 38,
+      "maxAltitude": 2000
+    },
+    "gaez": {
+      "soilType": "Franco-arenoso",
+      "rotationTip": "Evitar plantar Papa después (comparten plagas)"
+    }
+  },
+  {
+    "id": "frijol",
+    "name": "Frijol",
+    "icon": "🌱",
+    "lot": "Lote 03 · 0.8 ha",
+    "stage": "Germinación",
+    "ecocrop": {
+      "tempMin": 14,
+      "tempMax": 28,
+      "minMoisture": 30,
+      "maxAltitude": 2800
+    },
+    "gaez": {
+      "soilType": "Suelto / Baja salinidad",
+      "rotationTip": "Excelente previo al Maíz (recupera nutrientes)"
+    }
+  },
+  {
+    "id": "papa",
+    "name": "Papa",
+    "icon": "🥔",
+    "lot": "Sugerencia de rotación",
+    "stage": "Evaluación GAEZ",
+    "ecocrop": {
+      "tempMin": 10,
+      "tempMax": 22,
+      "minMoisture": 40,
+      "maxAltitude": 4000
+    },
+    "gaez": {
+      "soilType": "Franco-limoso",
+      "rotationTip": "Alta aptitud en climas frescos o mayor altitud"
+    }
+  }
+]
